@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.hateoas.RepresentationModel;
 import vitalabs.com.clinica.controller.PacienteController;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -20,12 +21,12 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 @Entity
 @SQLDelete(sql = "UPDATE pessoa SET deleted_at = CURRENT_TIMESTAMP WHERE id=?")
 @Where(clause = "deleted_at is null")
-public class Paciente extends Usuario{
+public class Paciente extends AbstractEntity{
     @NotNull
     Character sexo;
     @NotNull
-    @Min(value = 0, message = "Idade inválida")
-    Integer idade;
+    @Past(message = "Data de nascimento inválida")
+    LocalDate dataNascimento;
     @NotNull
     @Min(value = 0, message = "Altura inválida")
     Float altura;
@@ -42,12 +43,12 @@ public class Paciente extends Usuario{
         String nome;
         String cpf;
         Character sexo;
-        Integer idade;
+        LocalDate dataNascimento;
         Float altura;
         Float Peso;
         String contato;
         String email;
-        String role = "ROLE_PACIENTE";
+        String role = "PACIENTE";
 
         public static Paciente convertToEntity(DtoRequest dto, ModelMapper mapper){
             return mapper.map(dto, Paciente.class);
@@ -60,7 +61,7 @@ public class Paciente extends Usuario{
         String cpf;
         Character sexo;
         String nome;
-        String idade;
+        LocalDate dataNascimento;
         Float altura;
         Float peso;
         String contato;

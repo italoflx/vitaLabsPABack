@@ -23,7 +23,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Secretaria extends Usuario {
+public class Secretaria extends AbstractEntity {
     @CreationTimestamp
     Date dataHoraCriacao;
     @UpdateTimestamp
@@ -35,7 +35,7 @@ public class Secretaria extends Usuario {
         String contato;
         String email;
         String cpf;
-        String role = "ROLE_SECRETARIA";
+        String role = "SECRETARIA";
 
         public static Secretaria convertToEntity(Secretaria.DtoRequest dto, ModelMapper mapper){
             return mapper.map(dto, Secretaria.class);

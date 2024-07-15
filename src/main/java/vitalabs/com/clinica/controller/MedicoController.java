@@ -35,8 +35,10 @@ public class MedicoController {
     @ResponseStatus(HttpStatus.CREATED)
     public Medico.DtoResponse create(@RequestBody Medico.DtoRequest m){
         Medico medico = this.service.create(Medico.DtoRequest.convertToEntity(m, mapper));
+
         Medico.DtoResponse response = Medico.DtoResponse.convertToDto(medico, mapper);
         response.generateLinks(medico.getId());
+
         return response;
     }
 

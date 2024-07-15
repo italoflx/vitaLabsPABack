@@ -19,7 +19,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-public class Medico extends Usuario{
+public class Medico extends AbstractEntity{
     String crm;
     String especialidade;
 
@@ -46,7 +46,7 @@ public class Medico extends Usuario{
         String email;
         String crm;
         String especialidade;
-        String role = "ROLE_MEDICO";
+        String role = "MEDICO";
 
         List<Disponibilidade> disponibilidades = new ArrayList<>();
         List<Consulta> consultas = new ArrayList<>();

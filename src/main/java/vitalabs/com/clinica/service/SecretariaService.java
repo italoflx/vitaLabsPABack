@@ -6,7 +6,6 @@ import vitalabs.com.clinica.repository.SecretariaRepository;
 
 @Service
 public class SecretariaService extends GenericService<Secretaria, SecretariaRepository>{
-    SecretariaRepository repository;
     public SecretariaService(SecretariaRepository repository){
         super(repository);
     }

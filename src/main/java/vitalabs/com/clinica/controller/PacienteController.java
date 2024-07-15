@@ -8,9 +8,9 @@ import vitalabs.com.clinica.service.PacienteService;
 
 import java.util.List;
 
-@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/pacientes")
+@CrossOrigin(origins = "*")
 public class PacienteController {
     PacienteService service;
     ModelMapper mapper;

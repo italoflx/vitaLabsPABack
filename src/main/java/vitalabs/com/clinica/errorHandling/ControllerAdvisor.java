@@ -52,15 +52,15 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler({TransactionSystemException.class})
-    public ResponseEntity<Object> handleTransactionSystemException(
-            TransactionSystemException ex, WebRequest request) {
-
-        Map<String, Object> body = new LinkedHashMap<>();
-        body.put("timestamp", LocalDateTime.now());
-        body.put("message", "Entidade não localizada");
-        body.put("api", "Erro na transição dos dados");
-
-        return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+//    @ExceptionHandler({TransactionSystemException.class})
+//    public ResponseEntity<Object> handleTransactionSystemException(
+//            TransactionSystemException ex, WebRequest request) {
+//
+//        Map<String, Object> body = new LinkedHashMap<>();
+//        body.put("timestamp", LocalDateTime.now());
+//        body.put("message", "Entidade não localizada");
+//        body.put("api", "Erro na transição dos dados");
+//
+//        return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
+//    }
 }

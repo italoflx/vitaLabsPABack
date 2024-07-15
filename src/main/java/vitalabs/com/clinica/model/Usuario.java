@@ -81,6 +81,7 @@ public class Usuario extends AbstractEntity implements UserDetails {
         String contato;
         String email;
         String role;
+        String cpf;
         public static Usuario convertToEntity(DtoRequest dto, ModelMapper mapper) {
             return mapper.map(dto, Usuario.class);
         }

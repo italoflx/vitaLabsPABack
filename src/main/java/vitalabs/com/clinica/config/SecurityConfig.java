@@ -25,6 +25,7 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 @EnableWebSecurity
 @Configuration
@@ -44,12 +45,13 @@ public class SecurityConfig {
             "/swagger-ui/**",
             "/login"
     };
+
     public SecurityConfig(RsaKeyProperties rsaKeys) {
         this.rsaKeys = rsaKeys;
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(UserDetailsService userDetailsService, PasswordEncoder encoder){
+    public AuthenticationManager authenticationManager(UserDetailsService userDetailsService, PasswordEncoder encoder) {
         var authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(encoder);
@@ -60,63 +62,68 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable).cors(Customizer.withDefaults())
-                .authorizeHttpRequests( auth -> {
-                            auth.requestMatchers(AUTH_WHITELIST).permitAll();
-                            auth.requestMatchers(HttpMethod.POST, "/usuarios").permitAll();
-                            auth.requestMatchers(HttpMethod.POST, "/login/verificarToken").permitAll();
+                .authorizeHttpRequests(auth -> {
+                    auth.requestMatchers(AUTH_WHITELIST).permitAll();
+                    auth.requestMatchers(HttpMethod.POST, "/usuarios").permitAll();
+                    auth.requestMatchers(HttpMethod.POST, "/login").permitAll();
 
-                            auth.requestMatchers(HttpMethod.GET, "/pacientes").hasRole("ROLE_MEDICO");
-                            auth.requestMatchers(HttpMethod.POST, "/pacientes").hasRole("ROLE_MEDICO");
-                            auth.requestMatchers(HttpMethod.PUT, "/pacientes").hasRole("ROLE_MEDICO");
-                            auth.requestMatchers(HttpMethod.DELETE, "/pacientes").hasRole("ROLE_MEDICO");
+                    auth.requestMatchers(HttpMethod.POST, "/login/verificarToken").permitAll();
+                    //inicialmente permitindo todas as consultas, para testes
+                    auth.requestMatchers(HttpMethod.GET, "/pacientes").permitAll();
+                    auth.requestMatchers(HttpMethod.POST, "/pacientes").permitAll();
+//
+//                    auth.requestMatchers(HttpMethod.GET, "/pacientes").hasRole("MEDICO");
+//                    auth.requestMatchers(HttpMethod.POST, "/pacientes").hasRole("MEDICO");
+//                    auth.requestMatchers(HttpMethod.PUT, "/pacientes").hasRole("MEDICO");
+//                    auth.requestMatchers(HttpMethod.DELETE, "/pacientes").hasRole("MEDICO");
 
-                            auth.requestMatchers(HttpMethod.GET, "/consultas").hasRole("ROLE_MEDICO");
-                            auth.requestMatchers(HttpMethod.POST, "/consultas").hasRole("ROLE_MEDICO");
-                            auth.requestMatchers(HttpMethod.PUT, "/consultas").hasRole("ROLE_MEDICO");
-                            auth.requestMatchers(HttpMethod.DELETE, "/consultas").hasRole("ROLE_MEDICO");
+                    auth.requestMatchers(HttpMethod.GET, "/consultas").hasRole("MEDICO");
+                    auth.requestMatchers(HttpMethod.POST, "/consultas").hasRole("MEDICO");
+                    auth.requestMatchers(HttpMethod.PUT, "/consultas").hasRole("MEDICO");
+                    auth.requestMatchers(HttpMethod.DELETE, "/consultas").hasRole("MEDICO");
 
-                            auth.requestMatchers(HttpMethod.GET, "/consultas").hasRole("ROLE_SECRETARIA");
-                            auth.requestMatchers(HttpMethod.POST, "/consultas").hasRole("ROLE_SECRETARIA");
-                            auth.requestMatchers(HttpMethod.PUT, "/consultas").hasRole("ROLE_SECRETARIA");
-                            auth.requestMatchers(HttpMethod.DELETE, "/consultas").hasRole("ROLE_SECRETARIA");
+                    auth.requestMatchers(HttpMethod.GET, "/consultas").hasRole("SECRETARIA");
+                    auth.requestMatchers(HttpMethod.POST, "/consultas").hasRole("SECRETARIA");
+                    auth.requestMatchers(HttpMethod.PUT, "/consultas").hasRole("SECRETARIA");
+                    auth.requestMatchers(HttpMethod.DELETE, "/consultas").hasRole("SECRETARIA");
 
-                            auth.requestMatchers(HttpMethod.GET, "/disponibilidades").hasRole("ROLE_SECRETARIA");
-                            auth.requestMatchers(HttpMethod.POST, "/disponibilidades").hasRole("ROLE_SECRETARIA");
-                            auth.requestMatchers(HttpMethod.PUT, "/disponibilidades").hasRole("ROLE_SECRETARIA");
-                            auth.requestMatchers(HttpMethod.DELETE, "/disponibilidades").hasRole("ROLE_SECRETARIA");
+                    auth.requestMatchers(HttpMethod.GET, "/disponibilidades").hasRole("SECRETARIA");
+                    auth.requestMatchers(HttpMethod.POST, "/disponibilidades").hasRole("SECRETARIA");
+                    auth.requestMatchers(HttpMethod.PUT, "/disponibilidades").hasRole("SECRETARIA");
+                    auth.requestMatchers(HttpMethod.DELETE, "/disponibilidades").hasRole("SECRETARIA");
 
-                            auth.requestMatchers(HttpMethod.GET, "/pacientes").hasRole("ROLE_SECRETARIA");
-                            auth.requestMatchers(HttpMethod.POST, "/pacientes").hasRole("ROLE_SECRETARIA");
-                            auth.requestMatchers(HttpMethod.PUT, "/pacientes").hasRole("ROLE_SECRETARIA");
-                            auth.requestMatchers(HttpMethod.DELETE, "/pacientes").hasRole("ROLE_SECRETARIA");
+                    auth.requestMatchers(HttpMethod.GET, "/pacientes").hasRole("SECRETARIA");
+                    auth.requestMatchers(HttpMethod.POST, "/pacientes").hasRole("SECRETARIA");
+                    auth.requestMatchers(HttpMethod.PUT, "/pacientes").hasRole("SECRETARIA");
+                    auth.requestMatchers(HttpMethod.DELETE, "/pacientes").hasRole("SECRETARIA");
 
-                            auth.requestMatchers(HttpMethod.GET, "/endereco").hasRole("ROLE_SECRETARIA");
-                            auth.requestMatchers(HttpMethod.POST, "/endereco").hasRole("ROLE_SECRETARIA");
-                            auth.requestMatchers(HttpMethod.PUT, "/endereco").hasRole("ROLE_SECRETARIA");
-                            auth.requestMatchers(HttpMethod.DELETE, "/endereco").hasAuthority("ROLE_SECRETARIA");
+                    auth.requestMatchers(HttpMethod.GET, "/endereco").hasRole("SECRETARIA");
+                    auth.requestMatchers(HttpMethod.POST, "/endereco").hasRole("SECRETARIA");
+                    auth.requestMatchers(HttpMethod.PUT, "/endereco").hasRole("SECRETARIA");
+                    auth.requestMatchers(HttpMethod.DELETE, "/endereco").hasRole("SECRETARIA");
 
-                            auth.anyRequest().authenticated();
+                    auth.anyRequest().authenticated();
                 })
-                .oauth2ResourceServer( oauth2 -> oauth2.jwt(Customizer.withDefaults()))
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 //.httpBasic(Customizer.withDefaults())
                 .build();
     }
 
     @Bean
-    JwtDecoder jwtDecoder(){
+    JwtDecoder jwtDecoder() {
         return NimbusJwtDecoder.withPublicKey(rsaKeys.publicKey()).build();
     }
 
     @Bean
-    JwtEncoder jwtEncoder(){
+    JwtEncoder jwtEncoder() {
         JWK jwk = new RSAKey.Builder(rsaKeys.publicKey()).privateKey(rsaKeys.privateKey()).build();
         JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
         return new NimbusJwtEncoder(jwks);
     }
 
     @Bean
-    PasswordEncoder encoder(){
+    PasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
     }
 
