@@ -20,6 +20,7 @@ public abstract class GenericService<E extends AbstractEntity, R extends IGeneri
 
     @Override
     public E update(E e, String id) {
+        e.setId(id);
         Optional<E> pessoaBanco = repository.findById(id);
         if (pessoaBanco.isPresent()){
             return (E) this.repository.save(e);

@@ -50,7 +50,7 @@ public class PacienteController {
         return response;
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("{id}")
     public Paciente.DtoResponse update(@RequestBody Paciente.DtoRequest dtoRequest, @PathVariable String id) {
         Paciente u = Paciente.DtoRequest.convertToEntity(dtoRequest, mapper);
         Paciente.DtoResponse response = Paciente.DtoResponse.convertToDto(this.service.update(u, id), mapper);

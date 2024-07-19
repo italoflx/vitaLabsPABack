@@ -34,7 +34,7 @@ public class Paciente extends AbstractEntity{
     @Min(value = 0, message = "Peso inválido")
     Float peso;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_paciente")
     List<Consulta> consultas;
 
@@ -45,10 +45,9 @@ public class Paciente extends AbstractEntity{
         Character sexo;
         LocalDate dataNascimento;
         Float altura;
-        Float Peso;
+        Float peso;
         String contato;
         String email;
-        String role = "PACIENTE";
 
         public static Paciente convertToEntity(DtoRequest dto, ModelMapper mapper){
             return mapper.map(dto, Paciente.class);
@@ -58,16 +57,15 @@ public class Paciente extends AbstractEntity{
     @EqualsAndHashCode(callSuper = true)
     @Data
     public static class DtoResponse extends RepresentationModel<DtoResponse> {
+        String nome;
         String id;
         String cpf;
         Character sexo;
-        String nome;
         LocalDate dataNascimento;
         Float altura;
         Float peso;
         String contato;
         String email;
-        String role;
 
         public static Paciente.DtoResponse convertToDto(Paciente p, ModelMapper mapper){
             return mapper.map(p, Paciente.DtoResponse.class);
