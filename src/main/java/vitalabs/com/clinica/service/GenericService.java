@@ -24,7 +24,7 @@ public abstract class GenericService<E extends AbstractEntity, R extends IGeneri
         if (pessoaBanco.isPresent()){
             return (E) this.repository.save(e);
         }else{
-            throw  new EntityNotFoundException();
+            throw new EntityNotFoundException();
         }
     }
 

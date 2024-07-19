@@ -2,6 +2,7 @@ package vitalabs.com.clinica.controller;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import vitalabs.com.clinica.model.Medico;
 import vitalabs.com.clinica.service.MedicoService;
@@ -20,6 +21,7 @@ public class MedicoController {
         this.mapper = mapper;
     }
 
+    //@PreAuthorize("hasRole('MEDICO')")
     @GetMapping
     public List<Medico.DtoResponse> list(){
         return this.service.list().stream().map(

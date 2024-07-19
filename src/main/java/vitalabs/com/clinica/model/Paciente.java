@@ -19,7 +19,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 @NoArgsConstructor
 @Data
 @Entity
-@SQLDelete(sql = "UPDATE pessoa SET deleted_at = CURRENT_TIMESTAMP WHERE id=?")
+@SQLDelete(sql = "UPDATE paciente SET deleted_at = CURRENT_TIMESTAMP WHERE id=?")
 @Where(clause = "deleted_at is null")
 public class Paciente extends AbstractEntity{
     @NotNull
@@ -58,6 +58,7 @@ public class Paciente extends AbstractEntity{
     @EqualsAndHashCode(callSuper = true)
     @Data
     public static class DtoResponse extends RepresentationModel<DtoResponse> {
+        String id;
         String cpf;
         Character sexo;
         String nome;
