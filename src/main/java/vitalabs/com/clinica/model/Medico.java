@@ -1,10 +1,14 @@
 package vitalabs.com.clinica.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
 import org.modelmapper.ModelMapper;
 import org.springframework.hateoas.RepresentationModel;
 import vitalabs.com.clinica.controller.PacienteController;
@@ -17,8 +21,12 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @EqualsAndHashCode(callSuper = true)
-@Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
+@Entity
+@SQLDelete(sql = "UPDATE medico SET deleted_at = CURRENT_TIMESTAMP WHERE id=?")
+@Where(clause = "deleted_at is null")
 public class Medico extends AbstractEntity{
     String crm;
     String especialidade;
@@ -46,7 +54,6 @@ public class Medico extends AbstractEntity{
         String email;
         String crm;
         String especialidade;
-        String role = "MEDICO";
 
         List<Disponibilidade> disponibilidades = new ArrayList<>();
         List<Consulta> consultas = new ArrayList<>();
@@ -62,6 +69,7 @@ public class Medico extends AbstractEntity{
     @EqualsAndHashCode(callSuper = true)
     @Data
     public static class DtoResponse extends RepresentationModel<DtoResponse> {
+        String id;
         String nome;
         String contato;
         String email;

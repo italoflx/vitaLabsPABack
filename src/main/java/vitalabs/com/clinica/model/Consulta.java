@@ -29,6 +29,7 @@ public class Consulta{
     String procedimentos;
     String prescricoes;
     String observacoes;
+    // QUAL DIA E HORARIO FOI (DISPONIBILIDADE)
 
     LocalDateTime deletedAt;
     @CreationTimestamp

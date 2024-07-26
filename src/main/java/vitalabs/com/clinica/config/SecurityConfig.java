@@ -87,10 +87,16 @@ public class SecurityConfig {
                     auth.requestMatchers(HttpMethod.PUT, "/consultas").hasRole("SECRETARIA");
                     auth.requestMatchers(HttpMethod.DELETE, "/consultas").hasRole("SECRETARIA");
 
-                    auth.requestMatchers(HttpMethod.GET, "/disponibilidades").hasRole("SECRETARIA");
-                    auth.requestMatchers(HttpMethod.POST, "/disponibilidades").hasRole("SECRETARIA");
-                    auth.requestMatchers(HttpMethod.PUT, "/disponibilidades").hasRole("SECRETARIA");
-                    auth.requestMatchers(HttpMethod.DELETE, "/disponibilidades").hasRole("SECRETARIA");
+                    //inicialmente permitindo todas as consultas, para testes
+                    auth.requestMatchers(HttpMethod.GET, "/disponibilidades").permitAll();
+                    auth.requestMatchers(HttpMethod.POST, "/disponibilidades").permitAll();
+                    auth.requestMatchers(HttpMethod.PUT, "/disponibilidades").permitAll();
+                    auth.requestMatchers(HttpMethod.DELETE, "/disponibilidades").permitAll();
+
+//                    auth.requestMatchers(HttpMethod.GET, "/disponibilidades").hasRole("SECRETARIA");
+//                    auth.requestMatchers(HttpMethod.POST, "/disponibilidades").hasRole("SECRETARIA");
+//                    auth.requestMatchers(HttpMethod.PUT, "/disponibilidades").hasRole("SECRETARIA");
+//                    auth.requestMatchers(HttpMethod.DELETE, "/disponibilidades").hasRole("SECRETARIA");
 
                     auth.requestMatchers(HttpMethod.GET, "/pacientes").hasRole("SECRETARIA");
                     auth.requestMatchers(HttpMethod.POST, "/pacientes").hasRole("SECRETARIA");

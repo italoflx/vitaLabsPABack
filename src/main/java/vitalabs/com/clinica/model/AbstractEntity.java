@@ -30,7 +30,6 @@ public abstract class AbstractEntity {
     @NotBlank(message = "Usuário com contato em branco")
     String contato;
     String email;
-    @NotBlank(message = "Usuário com CPF em branco")
     String cpf;
     LocalDateTime deletedAt;
     @CreationTimestamp
