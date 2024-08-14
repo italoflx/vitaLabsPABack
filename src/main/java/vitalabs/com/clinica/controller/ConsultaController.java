@@ -4,7 +4,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import vitalabs.com.clinica.model.Consulta;
-import vitalabs.com.clinica.model.Disponibilidade;
 import vitalabs.com.clinica.service.ConsultaService;
 import java.util.List;
 

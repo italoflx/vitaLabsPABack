@@ -76,11 +76,14 @@ public class SecurityConfig {
 //                    auth.requestMatchers(HttpMethod.POST, "/pacientes").hasRole("MEDICO");
 //                    auth.requestMatchers(HttpMethod.PUT, "/pacientes").hasRole("MEDICO");
 //                    auth.requestMatchers(HttpMethod.DELETE, "/pacientes").hasRole("MEDICO");
-
-                    auth.requestMatchers(HttpMethod.GET, "/consultas").hasRole("MEDICO");
-                    auth.requestMatchers(HttpMethod.POST, "/consultas").hasRole("MEDICO");
-                    auth.requestMatchers(HttpMethod.PUT, "/consultas").hasRole("MEDICO");
-                    auth.requestMatchers(HttpMethod.DELETE, "/consultas").hasRole("MEDICO");
+                    auth.requestMatchers(HttpMethod.GET, "/consultas").permitAll();
+                    auth.requestMatchers(HttpMethod.POST, "/consultas").permitAll();
+                    auth.requestMatchers(HttpMethod.PUT, "/consultas").permitAll();
+                    auth.requestMatchers(HttpMethod.DELETE, "/consultas").permitAll();
+//                    auth.requestMatchers(HttpMethod.GET, "/consultas").hasRole("MEDICO");
+//                    auth.requestMatchers(HttpMethod.POST, "/consultas").hasRole("MEDICO");
+//                    auth.requestMatchers(HttpMethod.PUT, "/consultas").hasRole("MEDICO");
+//                    auth.requestMatchers(HttpMethod.DELETE, "/consultas").hasRole("MEDICO");
 
                     auth.requestMatchers(HttpMethod.GET, "/consultas").hasRole("SECRETARIA");
                     auth.requestMatchers(HttpMethod.POST, "/consultas").hasRole("SECRETARIA");

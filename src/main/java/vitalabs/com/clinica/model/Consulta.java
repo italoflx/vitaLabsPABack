@@ -6,7 +6,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
 import org.modelmapper.ModelMapper;
 import org.springframework.hateoas.RepresentationModel;
 import vitalabs.com.clinica.controller.ConsultaController;
@@ -20,6 +22,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 @NoArgsConstructor
 @Data
 @Entity
+@SQLDelete(sql = "UPDATE consulta SET deleted_at = CURRENT_TIMESTAMP WHERE id=?")
+@Where(clause = "deleted_at is null")
 public class Consulta{
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -29,7 +33,6 @@ public class Consulta{
     String procedimentos;
     String prescricoes;
     String observacoes;
-    // QUAL DIA E HORARIO FOI (DISPONIBILIDADE)
 
     LocalDateTime deletedAt;
     @CreationTimestamp
@@ -39,11 +42,11 @@ public class Consulta{
 
     @ManyToOne
     @JoinColumn(name = "medico_id")
-    private Medico medico;
+    Medico medico;
 
     @ManyToOne
     @JoinColumn(name = "paciente_id")
-    private Paciente paciente;
+    Paciente paciente;
 
     @Data
     public static class DtoRequest{
@@ -63,8 +66,11 @@ public class Consulta{
     @EqualsAndHashCode(callSuper = true)
     @Data
     public static class DtoResponse extends RepresentationModel<Consulta.DtoResponse> {
+        String id;
         String data;
         String hora;
+        Medico medico;
+        Paciente paciente;
         public static Consulta.DtoResponse convertToDto(Object p, ModelMapper mapper){
             return mapper.map(p, Consulta.DtoResponse.class);
         }

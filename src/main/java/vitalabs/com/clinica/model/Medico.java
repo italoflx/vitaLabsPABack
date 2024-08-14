@@ -58,10 +58,6 @@ public class Medico extends AbstractEntity{
         List<Disponibilidade> disponibilidades = new ArrayList<>();
         List<Consulta> consultas = new ArrayList<>();
         public static Medico convertToEntity(Medico.DtoRequest dto, ModelMapper mapper){
-            for (Disponibilidade d: dto.disponibilidades
-                 ) {
-                System.out.println(d.toString());
-            }
             return mapper.map(dto, Medico.class);
         }
     }

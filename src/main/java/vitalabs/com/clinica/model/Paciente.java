@@ -25,11 +25,14 @@ public class Paciente extends AbstractEntity{
     @NotNull
     Character sexo;
     @NotNull
+
     @Past(message = "Data de nascimento inválida")
     LocalDate dataNascimento;
+
     @NotNull
     @Min(value = 0, message = "Altura inválida")
     Float altura;
+
     @NotNull
     @Min(value = 0, message = "Peso inválido")
     Float peso;
@@ -57,8 +60,8 @@ public class Paciente extends AbstractEntity{
     @EqualsAndHashCode(callSuper = true)
     @Data
     public static class DtoResponse extends RepresentationModel<DtoResponse> {
-        String nome;
         String id;
+        String nome;
         String cpf;
         Character sexo;
         LocalDate dataNascimento;

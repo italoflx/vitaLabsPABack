@@ -28,10 +28,11 @@ public class ConsultaService{
     }
 
     public Consulta create(Consulta.DtoRequest c){
+        System.out.println(c.getMedico_id() + " " + c.getPaciente_id());
         Optional<Medico> medico = this.medicoRepository.findById(c.getMedico_id());
         Optional<Paciente> paciente = this.pacienteRepository.findById(c.getPaciente_id());
-
-        if(medico.isPresent() && paciente.isPresent()){
+        System.out.println(paciente.get());
+        if (medico.isPresent() && paciente.isPresent()){
             Consulta consulta = Consulta.DtoRequest.convertToEntity(c, this.mapper);
             consulta.setMedico(medico.get());
             consulta.setPaciente(paciente.get());

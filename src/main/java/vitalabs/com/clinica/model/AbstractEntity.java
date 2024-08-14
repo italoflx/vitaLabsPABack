@@ -31,6 +31,7 @@ public abstract class AbstractEntity {
     String contato;
     String email;
     String cpf;
+
     LocalDateTime deletedAt;
     @CreationTimestamp
     LocalDateTime createdAt;
