@@ -4,12 +4,16 @@ import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import vitalabs.com.clinica.model.Consulta;
+import vitalabs.com.clinica.model.Disponibilidade;
 import vitalabs.com.clinica.model.Medico;
 import vitalabs.com.clinica.model.Paciente;
 import vitalabs.com.clinica.repository.ConsultaRepository;
+import vitalabs.com.clinica.repository.DisponibilidadeRepository;
 import vitalabs.com.clinica.repository.MedicoRepository;
 import vitalabs.com.clinica.repository.PacienteRepository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +22,7 @@ public class ConsultaService{
     ConsultaRepository repository;
     MedicoRepository medicoRepository;
     PacienteRepository pacienteRepository;
+    DisponibilidadeRepository disponibilidadeRepository;
     ModelMapper mapper;
 
     public ConsultaService(ConsultaRepository repository, MedicoRepository medicoRepository, PacienteRepository pacienteRepository, ModelMapper mapper){
@@ -43,6 +48,7 @@ public class ConsultaService{
         }
     }
 
+
     public Consulta create(Consulta c){
         return this.repository.save(c);
     }
@@ -64,9 +70,7 @@ public class ConsultaService{
         return this.repository.save(c);
     }
 
-    public void delete(String id){
-        this.repository.delete(
-            findById(id)
-        );
+    public void delete(String id) {
+        this.repository.deleteById(id);
     }
 }

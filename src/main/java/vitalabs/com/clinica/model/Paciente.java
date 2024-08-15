@@ -38,7 +38,6 @@ public class Paciente extends AbstractEntity{
     Float peso;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_paciente")
     List<Consulta> consultas;
 
     @Data

@@ -12,16 +12,16 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @RequestMapping("/disponibilidades")
 public class DisponibilidadeController {
-    DisponibilidadeService service;
-    ModelMapper mapper;
+    private final DisponibilidadeService service;
+    private final ModelMapper mapper;
 
-    public DisponibilidadeController(DisponibilidadeService service, ModelMapper mapper){
+    public DisponibilidadeController(DisponibilidadeService service, ModelMapper mapper) {
         this.service = service;
         this.mapper = mapper;
     }
 
     @GetMapping
-    public List<Disponibilidade.DtoResponse> list(){
+    public List<Disponibilidade.DtoResponse> list() {
         return this.service.list().stream().map(
                 elementoAtual -> {
                     Disponibilidade.DtoResponse response = Disponibilidade.DtoResponse.convertToDto(elementoAtual, mapper);
@@ -32,21 +32,18 @@ public class DisponibilidadeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Disponibilidade.DtoResponse create(@RequestBody Disponibilidade.DtoRequest p){
+    public Disponibilidade.DtoResponse create(@RequestBody Disponibilidade.DtoRequest p) {
         Disponibilidade disponibilidade = this.service.create(Disponibilidade.DtoRequest.convertToEntity(p, mapper));
-
         Disponibilidade.DtoResponse response = Disponibilidade.DtoResponse.convertToDto(disponibilidade, mapper);
         response.generateLinks(disponibilidade.getId());
-
         return response;
     }
 
     @GetMapping("{id}")
-    public Disponibilidade.DtoResponse getById(@PathVariable String id){
+    public Disponibilidade.DtoResponse getById(@PathVariable String id) {
         Disponibilidade disponibilidade = this.service.getById(id);
         Disponibilidade.DtoResponse response = Disponibilidade.DtoResponse.convertToDto(disponibilidade, mapper);
         response.generateLinks(disponibilidade.getId());
-
         return response;
     }
 
@@ -59,7 +56,7 @@ public class DisponibilidadeController {
     }
 
     @DeleteMapping("{id}")
-    public void delete(@PathVariable String id){
+    public void delete(@PathVariable String id) {
         this.service.delete(id);
     }
 }

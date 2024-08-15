@@ -32,7 +32,6 @@ public class Medico extends AbstractEntity{
     String especialidade;
 
     @OneToMany(cascade = {CascadeType.ALL}, orphanRemoval=true)
-    @JoinColumn(name="id_medico")
     List<Consulta> consultas = new ArrayList<>();
 
     @ManyToMany(cascade = {CascadeType.ALL})

@@ -18,16 +18,22 @@ import java.util.Map;
 @ControllerAdvice
 public class ControllerAdvisor extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler({EntityNotFoundException.class})
-    public ResponseEntity<Object> handleEntityNotFoundException(
-            EntityNotFoundException ex, WebRequest request) {
+    @ExceptionHandler({EntityNotFoundException.class, RuntimeException.class})
+    public ResponseEntity<Object> handleRuntimeException(
+            RuntimeException ex, WebRequest request) {
 
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", LocalDateTime.now());
-        body.put("message", "Entidade não localizada");
+        body.put("message", ex.getMessage());
         body.put("api", "Erro na API");
 
-        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+        if (ex instanceof EntityNotFoundException) {
+            return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+        } else if (ex.getMessage().contains("Horário indisponível")) {
+            return new ResponseEntity<>(body, HttpStatus.CONFLICT);
+        } else {
+            return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @ExceptionHandler({ConstraintViolationException.class})
@@ -37,7 +43,7 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", LocalDateTime.now());
         body.put("message", "Erro ao validar a entrada");
-        
+
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
 
@@ -52,15 +58,15 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-//    @ExceptionHandler({TransactionSystemException.class})
-//    public ResponseEntity<Object> handleTransactionSystemException(
-//            TransactionSystemException ex, WebRequest request) {
-//
-//        Map<String, Object> body = new LinkedHashMap<>();
-//        body.put("timestamp", LocalDateTime.now());
-//        body.put("message", "Entidade não localizada");
-//        body.put("api", "Erro na transição dos dados");
-//
-//        return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
+    @ExceptionHandler({TransactionSystemException.class})
+    public ResponseEntity<Object> handleTransactionSystemException(
+            TransactionSystemException ex, WebRequest request) {
+
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("message", "Erro na transação dos dados");
+        body.put("api", "Erro na API");
+
+        return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

@@ -12,8 +12,8 @@ import org.hibernate.annotations.Where;
 import org.modelmapper.ModelMapper;
 import org.springframework.hateoas.RepresentationModel;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
@@ -26,23 +26,25 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 public class Disponibilidade {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    String id;
-    Date data;
-    String hora;
-    Boolean status;
+    private String id;
 
-    LocalDateTime deletedAt;
+    private LocalDate data;
+    private String hora;
+    private Boolean status;
+
+    private LocalDateTime deletedAt;
     @CreationTimestamp
-    LocalDateTime createdAt;
+    private LocalDateTime createdAt;
     @UpdateTimestamp
-    LocalDateTime updatedAt;
+    private LocalDateTime updatedAt;
 
     @Data
-    public static class DtoRequest{
-        String data;
-        String hora;
-        Boolean status = true;
-        public static Disponibilidade convertToEntity(Disponibilidade.DtoRequest dto, ModelMapper mapper){
+    public static class DtoRequest {
+        private LocalDate data;
+        private String hora;
+        private Boolean status = true;
+
+        public static Disponibilidade convertToEntity(Disponibilidade.DtoRequest dto, ModelMapper mapper) {
             return mapper.map(dto, Disponibilidade.class);
         }
     }
@@ -50,11 +52,12 @@ public class Disponibilidade {
     @EqualsAndHashCode(callSuper = true)
     @Data
     public static class DtoResponse extends RepresentationModel<Disponibilidade.DtoResponse> {
-        String id;
-        String data;
-        String hora;
-        Boolean status;
-        public static Disponibilidade.DtoResponse convertToDto(Disponibilidade p, ModelMapper mapper){
+        private String id;
+        private LocalDate data;
+        private String hora;
+        private Boolean status;
+
+        public static Disponibilidade.DtoResponse convertToDto(Disponibilidade p, ModelMapper mapper) {
             return mapper.map(p, Disponibilidade.DtoResponse.class);
         }
 

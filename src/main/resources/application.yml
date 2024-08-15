@@ -1,4 +1,5 @@
 spring:
+
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres?serverTimezone=UTC
     username: postgres
@@ -11,7 +12,8 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     generate-ddl: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
 rsa:
   private-key: classpath:certs/private.pem
   public-key: classpath:certs/public.pem
+
